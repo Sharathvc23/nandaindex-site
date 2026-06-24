@@ -127,14 +127,17 @@ code.tok { background: var(--bg-2); padding: 1px 6px; border-radius: 3px; font-s
 /* stats */
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px;
-  margin-top: 40px;
+  grid-template-columns: repeat(4, 1fr);   /* always one row of four */
+  gap: clamp(6px, 0.9vw, 12px);
+  margin-top: clamp(22px, 3vw, 40px);
 }
-.stat { background: var(--bg-2); border: 1px solid var(--rule); padding: 18px 18px 16px; border-radius: 4px; }
-.stat .num { font-size: 34px; font-weight: 700; line-height: 1; letter-spacing: -0.02em; }
-.stat .num small { font-size: 18px; font-weight: 600; color: var(--muted); }
-.stat .lbl { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+.stat { background: var(--bg-2); border: 1px solid var(--rule); padding: clamp(10px, 1.3vw, 18px) clamp(9px, 1vw, 16px) clamp(9px, 1.1vw, 16px); border-radius: 4px; }
+.stat .num { font-size: clamp(19px, 2.1vw, 32px); font-weight: 700; line-height: 1; letter-spacing: -0.02em; white-space: nowrap; }
+.stat .num small { font-size: clamp(11px, 1.2vw, 17px); font-weight: 600; color: var(--muted); }
+.stat .lbl { font-size: clamp(9px, 0.82vw, 11px); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin-top: 7px; line-height: 1.3; }
+
+/* phones: too tight for four across — fall back to a 2x2 grid */
+@media (max-width: 520px) { .stats { grid-template-columns: 1fr 1fr; } }
 
 /* ---------- section / panel ---------- */
 .panel {
