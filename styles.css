@@ -379,3 +379,25 @@ details.faq .faq-body a { color: var(--ink); text-decoration: underline; text-un
 
 @media (max-width: 860px) { .hops { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .hops { grid-template-columns: 1fr; } .resolve-top { justify-content: stretch; } }
+
+/* ---------- hero: two-column with switchboard animation ---------- */
+.hero-2col { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 44px; align-items: center; }
+.hero-2col .hero-left { min-width: 0; }
+.hero-2col .hero h1, .hero-2col h1 { max-width: 20ch; }
+.hero-viz { min-width: 0; display: flex; justify-content: center; }
+.switchboard { width: 100%; max-width: 440px; height: auto; }
+
+.sw-line { fill: none; stroke: rgba(14, 14, 14, .13); stroke-width: 2; }
+.sw-ball { fill: var(--brand-yellow); }
+.sw-hub rect { fill: var(--ink); }
+.sw-hub .cd { fill: var(--brand-yellow); }
+.sw-src { fill: var(--ink); }
+.sw-dst { fill: var(--ink); }
+.sw-label { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+.sw-hub-cap { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; fill: var(--muted); }
+
+@media (max-width: 900px) {
+  .hero-2col { grid-template-columns: 1fr; gap: 28px; }
+  .hero-viz { order: 2; }
+  .switchboard { max-width: 420px; }
+}
