@@ -146,6 +146,7 @@ code.tok { background: var(--bg-2); padding: 1px 6px; border-radius: 3px; font-s
   background: #fff;
   margin: 28px 0;
   overflow: hidden;
+  scroll-margin-top: 76px;   /* clear the sticky topbar on in-page anchor jumps */
 }
 .panel-head {
   display: flex;
