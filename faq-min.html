@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FAQ · NandaIndex</title>
+  <meta name="description" content="NandaIndex FAQ: what it is, how index records and resolution work, supported identities, permissionless deployment, and how it relates to AI Catalog, AGNTCY, DNS-AID, and emerging registries." />
+  <link rel="stylesheet" href="minimal.css?v=4" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <a href="index-min.html" class="brand-link"><strong>Nanda</strong>Index</a>
+      <span class="tag">Working draft</span>
+    </div>
+    <nav class="navlinks">
+      <a href="explore-min.html">Browse</a>
+      <a href="faq-min.html" class="active">FAQ</a>
+      <a href="glossary-min.html">Glossary</a>
+      <a href="contact-min.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="doc-wrap">
+    <header class="doc-hero">
+      <p class="eyebrow">Reference</p>
+      <h1>Frequently asked questions</h1>
+      <p class="subtitle">What NandaIndex is, how records resolve, and how it bridges existing discovery systems.</p>
+    </header>
+
+    <div class="doc-layout">
+      <aside class="docnav" aria-label="Contents">
+        <p class="docnav-title">Groups</p>
+        <ol>
+          <li><a href="#basics">Basics</a></li>
+          <li><a href="#entries">Entries and resolution</a></li>
+          <li><a href="#identities">Identities and deployment</a></li>
+          <li><a href="#ecosystem">Ecosystem</a></li>
+        </ol>
+      </aside>
+
+      <article class="doc">
+
+        <section id="basics">
+          <h2>Basics</h2>
+          <div class="faq-group">
+            <details class="faq" open>
+              <summary>What is NandaIndex?<span class="q-sign">+</span></summary>
+              <div class="faq-a"><p>A federated resolution layer. It is an AI Catalog-formatted database of index records, where each record maps a stable identity to the correct next discovery object. It introduces no new record format and does not host or execute agents.</p></div>
+            </details>
+            <details class="faq">
+              <summary>Is NandaIndex a registry?<span class="q-sign">+</span></summary>
+              <div class="faq-a"><p>No. A registry holds agent descriptions; NandaIndex holds pointers. An entry resolves an identity to wherever its description already lives, whether that is an AI Catalog, a DNS-AID record, a gateway, an AGNTCY ADS entry, or a hosted agent card.</p></div>
+            </details>
+            <details class="faq">
+              <summary>Do I need NandaIndex if I already publish AI Catalog?<span class="q-sign">+</span></summary>
+              <div class="faq-a"><p>Not for direct resolution. When you publish AI Catalog at a well-known endpoint and own the domain, any requester fetches it directly and NandaIndex is not in the critical path. An entry remains useful for fallback, federation visibility, migration, and anti-squatting.</p></div>
+            </details>
+            <details class="faq">
+              <summary>What is a discovery object?<span class="q-sign">+</span></summary>
+              <div class="faq-a"><p>The target an identity resolves to: an AI Catalog record or <code>.well-known</code> URL, a DNS-AID record, an AGNTCY ADS entry, an ANS record, an enterprise gateway, an A2A Agent Card or MCP descriptor, a hosted card, or a sector registry.</p></div>
+            </details>
+          </div>
+        </section>
+
+        <section id="entries">
+          <h2>Entries and resolution</h2>
+          <div class="faq-group">
+            <details class="faq">
+              <summary>What does an entry contain?<span class="q-sign">+</span></summary>
+              <div class="faq-a"><p>Four things: a stable <code>identifier</code> (URN or URI), the <code>mediaType</code> of the target, the target itself as a <code>url</code> or inline <code>data</code>, and <code>metadata</code> routing hints under <code>org.projectnanda.*</code>.</p></div>
+            </details>
+            <details class="faq">
+              <summary>When does an entry use a URL versus inline data?<span class="q-sign">+</span></summary>
+              <div class="faq-a"><p>A <code>url</code> is used when the target is fetchable directly, such as a hosted card or a well-known catalog. Inline <code>data</code> is used when resolution hands off to a system that owns the lookup itself, such as a DNS-AID <code>agentDiscoveryName</code>.</p></div>
+            </details>
+            <details class="faq">
+              <summary>What is a resolution role?<span class="q-sign">+</span></summary>
+              <div class="faq-a"><p>A metadata hint, <code>org.projectnanda.resolutionRole</code>, that describes how to treat the target. Examples include <code>nested-ai-catalog</code>, <code>dns-aid-pointer</code>, <code>personal-agent-card</code>, and <code>gateway</code>.</p></div>
+            </details>
+            <details class="faq">
+              <summary>How does resolution proceed?<span class="q-sign">+</span></summary>
+              <div class="faq-a"><p>NandaIndex maps the identity to a discovery object and returns its routing hints. The requester reads the discovery object, then the agent card for endpoint and auth, then calls the runtime. NandaIndex routes the first hop and then steps aside.</p></div>
+            </details>
+          </div>
+        </section>
+
+        <section id="identities">
+          <h2>Identities and deployment</h2>
+          <div class="faq-group">
+            <details class="faq">
+              <summary>What identities are supported?<span class="q-sign">+</span></summary>
+              <div class="faq-a"><p>Any stable URN or URI. Domain identities (<code>urn:ai:domain:...</code>), email identities (<code>urn:ai:email:...</code>), and system identities (<code>urn:ai:system:...</code>) are all entries of the same shape.</p></div>
+            </details>
+            <details class="faq">
+              <summary>What is permissionless deployment?<span class="q-sign">+</span></summary>
+              <div class="faq-a"><p>An identity does not require a unified infrastructure stack. The runtime, the agent card, and the brand domain can each live with a different provider. No single party controls all three, and no enterprise gateway or DNS certificate is required.</p></div>
+            </details>
+            <details class="faq">
+              <summary>Can an SMB or individual register without a domain?<span class="q-sign">+</span></summary>
+              <div class="faq-a"><p>Yes. An individual can use an email identity. An SMB can own a domain but delegate card hosting and runtime to third parties. An entry only needs a stable identity and a target.</p></div>
+            </details>
+          </div>
+        </section>
+
+        <section id="ecosystem">
+          <h2>Ecosystem</h2>
+          <div class="faq-group">
+            <details class="faq">
+              <summary>How does NandaIndex relate to AI Catalog?<span class="q-sign">+</span></summary>
+              <div class="faq-a"><p>It uses the AI Catalog Catalog Entry as its index-record format and strengthens AI Catalog by making it the framework through which other discovery systems bridge.</p></div>
+            </details>
+            <details class="faq">
+              <summary>How does it relate to AGNTCY ADS and ARD?<span class="q-sign">+</span></summary>
+              <div class="faq-a"><p>ADS is a decentralized backend directory; ARD is a read-only finder API over conforming registries. An entry can point at an ADS entry, and ADS exposes an AI Catalog-compatible interface, so the same record is reachable by catalog lookup, ARD search, or NandaIndex resolution.</p></div>
+            </details>
+            <details class="faq">
+              <summary>Does it replace DNS or DNS-AID?<span class="q-sign">+</span></summary>
+              <div class="faq-a"><p>No. For domain-controlled, cacheable resolution, DNS-AID stays authoritative. NandaIndex makes the DNS-AID path reachable from the switchboard by pointing to it with inline routing data.</p></div>
+            </details>
+            <details class="faq">
+              <summary>How do emerging registries (telecom, IoT, sovereign) join?<span class="q-sign">+</span></summary>
+              <div class="faq-a"><p>Each publishes one entry pointing to its native mechanism. It does not adopt AI Catalog internally and does not change its existing system. The switchboard absorbs the new system without requiring conformance.</p></div>
+            </details>
+          </div>
+        </section>
+
+      </article>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="foot-cols">
+      <div class="foot-col">
+        <p class="foot-h">NandaIndex</p>
+        <a href="index-min.html#intro">Introduction</a>
+        <a href="index-min.html#what">What is NANDA Index</a>
+        <a href="index-min.html#resolve">Try Resolve</a>
+        <a href="explore-min.html">Browse index records</a>
+      </div>
+      <div class="foot-col">
+        <p class="foot-h">Reference</p>
+        <a href="faq-min.html">FAQ</a>
+        <a href="glossary-min.html">Glossary</a>
+        <a href="contact-min.html">Contact</a>
+      </div>
+      <div class="foot-col">
+        <p class="foot-h">Background</p>
+        <a href="https://outshift.cisco.com/blog/ai-ml/outshift-mit-agentic-web" target="_blank" rel="noopener">Switchboard (Cisco x MIT)</a>
+        <a href="https://arxiv.org/abs/2507.14263" target="_blank" rel="noopener">Beyond DNS</a>
+        <a href="https://projectnanda.org" target="_blank" rel="noopener">Project NANDA</a>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>NandaIndex Federated Resolution Architecture. For research and discussion. Working draft.</span>
+      <a href="#" class="foot-top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var links = Array.prototype.slice.call(document.querySelectorAll('.docnav a'));
+      var map = {};
+      links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+      var secs = Array.prototype.slice.call(document.querySelectorAll('.doc section'));
+      if (!('IntersectionObserver' in window) || !secs.length) return;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          links.forEach(function (a) { a.classList.remove('current'); });
+          var cur = map[e.target.id];
+          if (cur) cur.classList.add('current');
+        });
+      }, { rootMargin: '-20% 0px -70% 0px' });
+      secs.forEach(function (s) { io.observe(s); });
+    })();
+  </script>
+</body>
+</html>
