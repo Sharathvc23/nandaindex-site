@@ -405,3 +405,99 @@ details.faq .faq-body a { color: var(--ink); text-decoration: underline; text-un
   .hero-viz { order: 2; }
   .switchboard { max-width: 420px; }
 }
+
+/* ============================================================
+   EXPLORE CATALOG  (explore.html)
+   Reuses the root tokens only; soft tints below are rgba of
+   existing token hexes. Card/panel design ported from the
+   approved design mocks, recolored: brand-yellow = highlight +
+   resolution-trace lit state, hcl-blue = functional accent,
+   ok = verified, warn = pending.
+   ============================================================ */
+:root {
+  --blue-soft: rgba(0, 102, 214, .08);
+  --ok-soft: rgba(21, 128, 61, .12);
+  --warn-soft: rgba(180, 83, 9, .12);
+  --shadow-card: 0 1px 2px rgba(14, 14, 14, .05), 0 8px 24px rgba(14, 14, 14, .06);
+  --shadow-card-hover: 0 2px 4px rgba(14, 14, 14, .06), 0 16px 40px rgba(14, 14, 14, .10);
+}
+
+/* ---------- header + control bar ---------- */
+main.explore { max-width: var(--maxw); margin: 0 auto; width: 100%; padding: 0 var(--pad-x) 80px; }
+.explore-head { padding: 40px 0 22px; }
+.explore-head h1 { font-size: clamp(28px, 4vw, 40px); letter-spacing: -.02em; margin: 6px 0 12px; }
+.explore-head .lede { font-size: 15px; color: var(--muted); max-width: 60ch; line-height: 1.55; }
+
+.explore-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+.explore-search { position: relative; display: flex; align-items: center; gap: 9px; flex: 1; min-width: 240px; max-width: 460px; border: 1px solid var(--rule); border-radius: 10px; padding: 9px 13px; background: #fff; }
+.explore-search:focus-within { border-color: var(--hcl-blue); box-shadow: 0 0 0 3px var(--blue-soft); }
+.explore-search svg { width: 16px; height: 16px; color: var(--muted); flex: none; }
+.explore-search input { border: 0; outline: 0; width: 100%; font: inherit; font-size: 14px; color: var(--ink); background: transparent; }
+.explore-sort { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+.explore-sort select { font: inherit; font-size: 13px; color: var(--ink); border: 1px solid var(--rule); border-radius: 8px; padding: 8px 10px; background: #fff; cursor: pointer; }
+.explore-sort select:focus-visible { outline: 2px solid var(--hcl-blue); outline-offset: 1px; }
+
+/* ---------- layout: left menu + results ---------- */
+.explore-body { display: flex; align-items: flex-start; gap: 28px; }
+.cat-menu { flex: none; width: 180px; position: sticky; top: 88px; display: flex; flex-direction: column; gap: 2px; }
+.cat-item { display: flex; align-items: center; gap: 8px; text-align: left; font: inherit; font-size: 14px; color: var(--muted); background: none; border: 0; border-left: 3px solid transparent; padding: 8px 12px; border-radius: 0 6px 6px 0; cursor: pointer; transition: color .15s, background .15s; }
+.cat-item:hover { color: var(--ink); background: var(--bg-2); }
+.cat-item.on { color: var(--ink); font-weight: 600; border-left-color: var(--hcl-blue); background: var(--blue-soft); }
+.cat-results { flex: 1; min-width: 0; }
+
+/* ---------- card grid ---------- */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.card { background: #fff; border: 1px solid var(--rule-soft); border-radius: 14px; box-shadow: var(--shadow-card); padding: 18px; display: flex; flex-direction: column; gap: 12px; transition: box-shadow .18s ease, border-color .18s ease, transform .18s ease; cursor: pointer; text-align: left; }
+.card:hover { box-shadow: var(--shadow-card-hover); border-color: var(--rule); transform: translateY(-2px); }
+.card:focus-visible { outline: 2px solid var(--hcl-blue); outline-offset: 2px; }
+.card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.card .title-line { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.card .title-line h3 { font-size: 16px; font-weight: 600; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.verified-mark { flex: none; width: 16px; height: 16px; color: var(--ok); }
+.card .identifier { font-family: var(--mono); font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: -4px; }
+.card .desc { font-size: 13.5px; line-height: 1.5; color: var(--ink); margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 6px; background: var(--bg-2); color: var(--muted); border: 1px solid var(--rule-soft); }
+.meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 11.5px; color: var(--muted); }
+.meta .dot { color: var(--rule); }
+.vbadge { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: 11px; padding: 3px 8px; border-radius: 6px; }
+.vbadge.ok { background: var(--ok-soft); color: var(--ok); }
+.vbadge.pending { background: var(--warn-soft); color: var(--warn); }
+.proto { font-family: var(--mono); font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--ink); background: var(--brand-yellow-soft); padding: 2px 7px; border-radius: 5px; }
+.divider { height: 1px; background: var(--rule-soft); margin: 2px 0; }
+.actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.actions .view { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 600; color: var(--hcl-blue); text-decoration: none; background: none; border: 0; cursor: pointer; padding: 0; }
+.actions .view:hover { text-decoration: underline; }
+.iconbtn-row { display: flex; gap: 4px; }
+.iconbtn { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: 1px solid var(--rule-soft); border-radius: 8px; background: #fff; color: var(--muted); cursor: pointer; transition: .15s; }
+.iconbtn:hover { border-color: var(--hcl-blue); color: var(--hcl-blue); background: var(--blue-soft); }
+.iconbtn.copied { border-color: var(--ok); color: var(--ok); background: var(--ok-soft); }
+.iconbtn svg { width: 15px; height: 15px; }
+
+/* ---------- category pill tints (top-right of card) ---------- */
+.cat-pill { flex: none; font-size: 11px; font-weight: 600; letter-spacing: .02em; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+.cat-pill[data-cat="enterprise"] { background: var(--blue-soft); color: var(--hcl-blue); }
+.cat-pill[data-cat="dns"] { background: var(--bg-2); color: var(--ink); }
+.cat-pill[data-cat="smb"] { background: var(--warn-soft); color: var(--warn); }
+.cat-pill[data-cat="personal"] { background: var(--ok-soft); color: var(--ok); }
+.cat-pill[data-cat="mcp"] { background: #e7e3fb; color: #4b3aa6; }
+.cat-pill[data-cat="skill"] { background: #fde7ef; color: #b4185a; }
+
+/* ---------- pagination ---------- */
+.pager { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 28px; }
+.pager button { min-width: 34px; height: 34px; padding: 0 10px; font: inherit; font-size: 13px; border: 1px solid var(--rule); border-radius: 8px; background: #fff; color: var(--ink); cursor: pointer; transition: .15s; }
+.pager button:hover:not(:disabled) { border-color: var(--hcl-blue); color: var(--hcl-blue); }
+.pager button[disabled] { opacity: .4; cursor: not-allowed; }
+.pager button.on { background: var(--hcl-blue); border-color: var(--hcl-blue); color: #fff; }
+.pager .ell { color: var(--muted); padding: 0 2px; }
+.cat-empty { color: var(--muted); font-size: 14px; padding: 40px 0; text-align: center; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 980px) { .card-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 680px) {
+  .explore-body { flex-direction: column; }
+  .cat-menu { position: static; width: 100%; flex-direction: row; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+  .cat-item { flex: none; border-left: 0; border: 1px solid var(--rule); border-radius: 999px; padding: 6px 12px; }
+  .cat-item.on { border-color: var(--hcl-blue); }
+  .card-grid { grid-template-columns: 1fr; }
+}

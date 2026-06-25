@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Browse · NANDA Index</title>
+  <meta name="description" content="Browse the NANDA Index: a secure directory of verified agent registries. Filter by category and inspect any record's full resolution path." />
+  <link rel="stylesheet" href="styles.css?v=6" />
+</head>
+<body>
+
+  <!-- ============ TOPBAR ============ -->
+  <header class="topbar">
+    <div class="brand">
+      <a href="index.html" class="brand-link"><strong>NANDA</strong> Index</a>
+      <span class="tag">Working draft v0.3 · Project NANDA</span>
+    </div>
+    <nav class="navlinks">
+      <a href="index.html#why">Why</a>
+      <a href="index.html#what">What</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#resolve">Resolve</a>
+      <a href="explore.html" class="active">Explore</a>
+      <a href="faq.html">FAQ</a>
+    </nav>
+  </header>
+
+  <main class="explore">
+    <header class="explore-head">
+      <p class="eyebrow">Explore</p>
+      <h1>Browse the NANDA Index</h1>
+      <p class="lede">
+        A secure directory of verified agent registries. Filter by category and select
+        any entry to inspect its full record and resolution path.
+      </p>
+    </header>
+
+    <div class="explore-bar">
+      <div class="explore-search">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+          <circle cx="9" cy="9" r="6" /><path d="M14 14l3.5 3.5" stroke-linecap="round" />
+        </svg>
+        <input id="q" type="search" placeholder="Search by name, identifier, or domain…" autocomplete="off" />
+      </div>
+      <label class="explore-sort">
+        <span>Sort</span>
+        <select id="sort">
+          <option value="recent">Recently updated</option>
+          <option value="name">Name A–Z</option>
+          <option value="verified">Verified first</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="explore-body">
+      <aside class="cat-menu" id="catMenu" aria-label="Filter by category"></aside>
+      <section class="cat-results">
+        <div class="card-grid" id="grid"></div>
+        <nav class="pager" id="pager" aria-label="Pagination"></nav>
+      </section>
+    </div>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="bottom">
+    <span>Project NANDA · MIT Media Lab. For research and discussion. v0.3, request for comments.</span>
+    <span class="fl">
+      <a href="faq.html">FAQ</a>
+      <a href="https://arxiv.org/abs/2507.14263" target="_blank" rel="noopener">Beyond DNS</a>
+      <a href="https://projectnanda.org" target="_blank" rel="noopener">projectnanda.org</a>
+    </span>
+  </footer>
+
+  <!-- ============ SLIDE-OUT DETAIL PANEL ============ -->
+  <div class="panel-scrim" id="scrim" hidden></div>
+  <aside class="slide-panel" id="slidePanel" hidden aria-label="Index record detail"></aside>
+
+  <script src="explore.js"></script>
+</body>
+</html>

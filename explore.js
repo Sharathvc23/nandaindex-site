@@ -256,6 +256,187 @@
     return lines.join('\n');
   }
 
+  /* ---------------- DOM rendering (browser only) ---------------- */
+  var PAGE_SIZE = 9;
+  var state = { search: '', cats: new Set(), sort: 'recent', page: 1, selected: null };
+
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  // shared SVG icons
+  var ICON = {
+    verified: '<svg class="verified-mark" viewBox="0 0 20 20" fill="currentColor" aria-label="Verified"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>',
+    copy: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="7" width="9" height="9" rx="1.5"/><path d="M4 13V5a1.5 1.5 0 011.5-1.5H13"/></svg>',
+    json: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4c-1.5 0-2 .7-2 2v1.6c0 .9-.5 1.4-1.4 1.4.9 0 1.4.5 1.4 1.4V14c0 1.3.5 2 2 2"/><path d="M12 4c1.5 0 2 .7 2 2v1.6c0 .9.5 1.4 1.4 1.4-.9 0-1.4.5-1.4 1.4V14c0 1.3-.5 2-2 2"/></svg>',
+    md: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="15" height="10" rx="2"/><path d="M5 12.5V8l2.2 2.2L9.4 8v4.5"/><path d="M12.7 7.8v3.4m0 1.4l-1.7-1.9m1.7 1.9l1.7-1.9"/></svg>',
+  };
+
+  function protoOf(r) {
+    var mt = r.mediaType || '';
+    if (mt === MEDIA.mcp) return 'mcp';
+    if (mt === MEDIA.skill) return 'skill';
+    if (mt === MEDIA.dns) return 'dns-aid';
+    if (mt.indexOf('a2a') !== -1) return 'a2a';
+    return 'catalog';
+  }
+  function fmtDate(s) {
+    var d = new Date(s);
+    return isNaN(d) ? s : d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+  }
+
+  function cardHTML(r) {
+    var vmark = r.verified ? ICON.verified : '';
+    var vbadge = r.verified
+      ? '<span class="vbadge ok">✓ Verified</span>'
+      : '<span class="vbadge pending">◷ Pending</span>';
+    var chips = r.tags.slice(0, 4).map(function (t) {
+      return '<span class="chip">' + esc(t) + '</span>';
+    }).join('');
+    return (
+      '<article class="card" data-key="' + esc(r.key) + '" role="button" tabindex="0" aria-label="' + esc(r.name) + ' — open record">' +
+      '<div class="card-head"><div class="title-line"><h3>' + esc(r.name) + '</h3>' + vmark + '</div>' +
+      '<span class="cat-pill" data-cat="' + esc(r.cat) + '">' + esc(CAT_LABEL[r.cat]) + '</span></div>' +
+      '<div class="identifier">' + esc(r.identity) + '</div>' +
+      '<p class="desc">' + esc(r.description) + '</p>' +
+      '<div class="meta">' + vbadge +
+      '<span class="proto">' + esc(protoOf(r)) + '</span>' +
+      '<span class="dot">·</span><span>' + esc(r.version) + '</span>' +
+      '<span class="dot">·</span><span>' + esc(fmtDate(r.updated)) + '</span></div>' +
+      '<div class="chips">' + chips + '</div>' +
+      '<div class="divider"></div>' +
+      '<div class="actions"><button class="view" data-act="view">View details →</button>' +
+      '<div class="iconbtn-row">' +
+      '<button class="iconbtn" data-act="copy" title="Copy identifier" aria-label="Copy identifier">' + ICON.copy + '</button>' +
+      '<button class="iconbtn" data-act="json" title="Download JSON" aria-label="Download JSON">' + ICON.json + '</button>' +
+      '<button class="iconbtn" data-act="md" title="Download Markdown" aria-label="Download Markdown">' + ICON.md + '</button>' +
+      '</div></div></article>'
+    );
+  }
+
+  function renderMenu() {
+    var host = $('#catMenu');
+    if (!host) return;
+    var items = [{ key: 'all', label: 'All' }].concat(
+      CAT_KEYS.map(function (k) { return { key: k, label: CAT_LABEL[k] }; })
+    );
+    host.innerHTML = items.map(function (it) {
+      var on = it.key === 'all' ? state.cats.size === 0 : state.cats.has(it.key);
+      return '<button class="cat-item' + (on ? ' on' : '') + '" data-cat="' + it.key + '" type="button">' + esc(it.label) + '</button>';
+    }).join('');
+    Array.prototype.forEach.call(host.querySelectorAll('.cat-item'), function (btn) {
+      btn.addEventListener('click', function () {
+        var k = btn.getAttribute('data-cat');
+        if (k === 'all') state.cats = new Set();
+        else if (state.cats.has(k)) state.cats.delete(k);
+        else state.cats.add(k);
+        state.page = 1;
+        render();
+      });
+    });
+  }
+
+  function renderGrid() {
+    var grid = $('#grid');
+    if (!grid) return;
+    var list = applyFilters(DATA, state);
+    var pages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+    if (state.page > pages) state.page = pages;
+    var items = list.slice((state.page - 1) * PAGE_SIZE, state.page * PAGE_SIZE);
+    if (!items.length) {
+      grid.innerHTML = '<p class="cat-empty">No entries match your filters.</p>';
+    } else {
+      grid.innerHTML = items.map(cardHTML).join('');
+      Array.prototype.forEach.call(grid.querySelectorAll('.card'), function (card) {
+        var key = card.getAttribute('data-key');
+        var rec = DATA.filter(function (r) { return r.key === key; })[0];
+        function open() { openPanel(key); }
+        card.addEventListener('click', function (e) {
+          var act = e.target.closest('[data-act]');
+          if (!act) { open(); return; }
+          e.stopPropagation();
+          var a = act.getAttribute('data-act');
+          if (a === 'view') open();
+          else if (a === 'copy') copyIdentifier(rec, act);
+          else if (a === 'json') downloadJSON(rec);
+          else if (a === 'md') downloadMarkdown(rec);
+        });
+        card.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+        });
+      });
+    }
+    renderPager(pages);
+  }
+
+  function renderPager(pages) {
+    var host = $('#pager');
+    if (!host) return;
+    if (pages <= 1) { host.innerHTML = ''; return; }
+    var p = state.page;
+    var nums = [];
+    if (pages <= 5) { for (var i = 1; i <= pages; i++) nums.push(i); }
+    else {
+      nums.push(1);
+      if (p > 3) nums.push('…');
+      for (var j = Math.max(2, p - 1); j <= Math.min(pages - 1, p + 1); j++) nums.push(j);
+      if (p < pages - 2) nums.push('…');
+      nums.push(pages);
+    }
+    var html = '<button type="button" data-go="prev"' + (p === 1 ? ' disabled' : '') + '>Prev</button>';
+    html += nums.map(function (n) {
+      if (n === '…') return '<span class="ell">…</span>';
+      return '<button type="button" class="' + (n === p ? 'on' : '') + '" data-go="' + n + '">' + n + '</button>';
+    }).join('');
+    html += '<button type="button" data-go="next"' + (p === pages ? ' disabled' : '') + '>Next</button>';
+    host.innerHTML = html;
+    Array.prototype.forEach.call(host.querySelectorAll('button[data-go]'), function (b) {
+      b.addEventListener('click', function () {
+        var g = b.getAttribute('data-go');
+        if (g === 'prev') state.page = Math.max(1, p - 1);
+        else if (g === 'next') state.page = Math.min(pages, p + 1);
+        else state.page = parseInt(g, 10);
+        render();
+      });
+    });
+  }
+
+  function render() { renderMenu(); renderGrid(); }
+
+  /* ---------------- export + panel (panel filled in later task) ---------------- */
+  function downloadBlob(name, type, text) {
+    var blob = new Blob([text], { type: type });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 0);
+  }
+  function downloadJSON(r) { downloadBlob(r.key + '.json', 'application/json', toJSON(r)); }
+  function downloadMarkdown(r) { downloadBlob(r.key + '.md', 'text/markdown', toMarkdown(r)); }
+  function copyIdentifier(r, btn) {
+    if (navigator.clipboard) navigator.clipboard.writeText(r.identity);
+    if (btn) { btn.classList.add('copied'); setTimeout(function () { btn.classList.remove('copied'); }, 1100); }
+  }
+
+  function openPanel(key) { /* full implementation added in the next task */ }
+  function closePanel() {}
+
+  function init() {
+    if (!document.getElementById('grid')) return; // not the explore page
+    var q = $('#q');
+    if (q) q.addEventListener('input', function () { state.search = q.value; state.page = 1; render(); });
+    var sort = $('#sort');
+    if (sort) sort.addEventListener('change', function () { state.sort = sort.value; render(); });
+    var scrim = $('#scrim');
+    if (scrim) scrim.addEventListener('click', closePanel);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePanel(); });
+    render();
+  }
+
   /* ---------------- public API ---------------- */
   var api = {
     DATA: DATA,
@@ -268,9 +449,15 @@
     applyFilters: applyFilters,
     toJSON: toJSON,
     toMarkdown: toMarkdown,
+    init: init,
   };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
-  if (typeof window !== 'undefined') window.Explore = api;
-  // DOM rendering + init are attached in a later task and run only in a browser.
+  if (typeof window !== 'undefined') {
+    window.Explore = api;
+    if (typeof document !== 'undefined') {
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+      else init();
+    }
+  }
 })();
