@@ -440,9 +440,12 @@ main.explore { max-width: var(--maxw); margin: 0 auto; width: 100%; padding: 0 v
 /* ---------- layout: left menu + results ---------- */
 .explore-body { display: flex; align-items: flex-start; gap: 28px; }
 .cat-menu { flex: none; width: 180px; position: sticky; top: 88px; display: flex; flex-direction: column; gap: 2px; }
-.cat-item { display: flex; align-items: center; gap: 8px; text-align: left; font: inherit; font-size: 14px; color: var(--muted); background: none; border: 0; border-left: 3px solid transparent; padding: 8px 12px; border-radius: 0 6px 6px 0; cursor: pointer; transition: color .15s, background .15s; }
-.cat-item:hover { color: var(--ink); background: var(--bg-2); }
-.cat-item.on { color: var(--ink); font-weight: 600; border-left-color: var(--hcl-blue); background: var(--blue-soft); }
+.cat-title { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px 12px; }
+.cat-check { display: flex; align-items: center; gap: 9px; padding: 7px 12px; font-size: 14px; color: var(--ink); cursor: pointer; border-radius: 6px; transition: background .15s; }
+.cat-check:hover { background: var(--bg-2); }
+.cat-check input { width: 15px; height: 15px; accent-color: var(--hcl-blue); cursor: pointer; margin: 0; flex: none; }
+.cat-clear { margin: 10px 0 0 12px; font: inherit; font-size: 12.5px; font-weight: 600; color: var(--hcl-blue); background: none; border: 0; cursor: pointer; padding: 0; }
+.cat-clear:hover { text-decoration: underline; }
 .cat-results { flex: 1; min-width: 0; }
 
 /* ---------- card grid ---------- */
@@ -496,9 +499,10 @@ main.explore { max-width: var(--maxw); margin: 0 auto; width: 100%; padding: 0 v
 @media (max-width: 980px) { .card-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 680px) {
   .explore-body { flex-direction: column; }
-  .cat-menu { position: static; width: 100%; flex-direction: row; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
-  .cat-item { flex: none; border-left: 0; border: 1px solid var(--rule); border-radius: 999px; padding: 6px 12px; }
-  .cat-item.on { border-color: var(--hcl-blue); }
+  .cat-menu { position: static; width: 100%; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 2px 10px; }
+  .cat-title { width: 100%; margin: 0 0 4px; }
+  .cat-check { flex: none; padding: 6px 6px; }
+  .cat-clear { margin: 0 0 0 4px; }
   .card-grid { grid-template-columns: 1fr; }
 }
 

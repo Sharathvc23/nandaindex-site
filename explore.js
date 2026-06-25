@@ -320,23 +320,23 @@
   function renderMenu() {
     var host = $('#catMenu');
     if (!host) return;
-    var items = [{ key: 'all', label: 'All' }].concat(
-      CAT_KEYS.map(function (k) { return { key: k, label: CAT_LABEL[k] }; })
-    );
-    host.innerHTML = items.map(function (it) {
-      var on = it.key === 'all' ? state.cats.size === 0 : state.cats.has(it.key);
-      return '<button class="cat-item' + (on ? ' on' : '') + '" data-cat="' + it.key + '" type="button">' + esc(it.label) + '</button>';
+    var boxes = CAT_KEYS.map(function (k) {
+      return '<label class="cat-check"><input type="checkbox" data-cat="' + k + '"' +
+        (state.cats.has(k) ? ' checked' : '') + ' /><span>' + esc(CAT_LABEL[k]) + '</span></label>';
     }).join('');
-    Array.prototype.forEach.call(host.querySelectorAll('.cat-item'), function (btn) {
-      btn.addEventListener('click', function () {
-        var k = btn.getAttribute('data-cat');
-        if (k === 'all') state.cats = new Set();
-        else if (state.cats.has(k)) state.cats.delete(k);
-        else state.cats.add(k);
+    host.innerHTML =
+      '<p class="cat-title">Category</p>' + boxes +
+      (state.cats.size ? '<button class="cat-clear" type="button">Clear filters</button>' : '');
+    Array.prototype.forEach.call(host.querySelectorAll('input[data-cat]'), function (box) {
+      box.addEventListener('change', function () {
+        var k = box.getAttribute('data-cat');
+        if (box.checked) state.cats.add(k); else state.cats.delete(k);
         state.page = 1;
         render();
       });
     });
+    var clear = host.querySelector('.cat-clear');
+    if (clear) clear.addEventListener('click', function () { state.cats = new Set(); state.page = 1; render(); });
   }
 
   function renderGrid() {
