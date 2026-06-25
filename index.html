@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>NANDA Index · The index for the Internet of AI Agents</title>
   <meta name="description" content="The NANDA Index: a lean, DNS-inspired index that resolves any agent identity to dynamic, cryptographically verifiable AgentFacts. Discovery, identity and authentication for the Internet of AI Agents." />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=6" />
 </head>
 <body>
 
@@ -16,39 +16,129 @@
       <span class="tag">Working draft v0.3 · Project NANDA</span>
     </div>
     <nav class="navlinks">
+      <a href="#browse">Browse</a>
       <a href="#why">Why</a>
       <a href="#what">What</a>
       <a href="#how">How it works</a>
+      <a href="#resolve">Resolve</a>
+      <a href="explore.html">Explore</a>
       <a href="faq.html">FAQ</a>
-      <a href="https://nandaindex.org" target="_blank" rel="noopener">Resolve →</a>
     </nav>
   </header>
 
   <main>
 
     <!-- ============ HERO ============ -->
-    <section class="hero">
-      <p class="eyebrow"><span class="mk">NANDA</span> Networked AI Agents in a Decentralized Architecture</p>
-      <h1>The index for the <span class="hl">Internet of AI Agents</span>.</h1>
-      <p class="lede">
-        The web is poised to host billions of autonomous agents that negotiate, delegate and migrate
-        in milliseconds. The NANDA Index is a minimal, DNS-inspired layer that resolves any agent
-        identity to dynamic, cryptographically signed <code class="tok">AgentFacts</code> for
-        discovery, authentication and trust, <strong>without abandoning existing web infrastructure</strong>.
+    <section class="hero hero-2col">
+      <div class="hero-left">
+        <p class="eyebrow"><span class="mk">NANDA</span> Networked AI Agents in a Decentralized Architecture</p>
+        <h1>A global switchboard for the <span class="hl">Internet of AI Agents</span>.</h1>
+        <p class="lede">
+          The web is poised to host billions of autonomous agents that negotiate, delegate and migrate
+          in milliseconds. The NANDA Index resolves any agent identity to dynamic, cryptographically
+          signed <code class="tok">AgentFacts</code> — a minimal, DNS-inspired layer for discovery,
+          authentication and trust, <strong>without abandoning existing web infrastructure</strong>.
+        </p>
+
+        <div class="hero-cta">
+          <a class="btn primary" href="explore.html">Browse the index <span class="arr">→</span></a>
+          <a class="btn" href="https://arxiv.org/abs/2507.14263" target="_blank" rel="noopener">Read the paper</a>
+          <a class="btn" href="faq.html">FAQ</a>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><div class="num">≤120<small> B</small></div><div class="lbl">lean index record</div></div>
+          <div class="stat"><div class="num">&lt;1<small> s</small></div><div class="lbl">global resolution</div></div>
+          <div class="stat"><div class="num">10⁴<small>×</small></div><div class="lbl">fewer index writes</div></div>
+          <div class="stat"><div class="num">&lt;1<small> s</small></div><div class="lbl">revocation &amp; key rotation</div></div>
+        </div>
+      </div>
+
+      <!-- switchboard routing: identities patched through the index to the right discovery object.
+           Pulses use SVG animateMotion (glowing yellow balls) so they animate boldly and run
+           regardless of the OS reduced-motion setting. -->
+      <div class="hero-viz">
+        <svg class="switchboard" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 420 320" role="img"
+             aria-label="The NANDA Index patches domain, email and URN identities through to AI Catalog, DNS-AID and Agent Card discovery objects.">
+          <defs>
+            <filter id="swGlow" x="-80%" y="-80%" width="260%" height="260%">
+              <feGaussianBlur stdDeviation="3" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- wiring (referenced by the travelling pulses) -->
+          <path id="w1" class="sw-line" d="M58 80 L210 160"/>
+          <path id="w2" class="sw-line" d="M58 160 L210 160"/>
+          <path id="w3" class="sw-line" d="M58 240 L210 160"/>
+          <path id="w4" class="sw-line" d="M210 160 L362 80"/>
+          <path id="w5" class="sw-line" d="M210 160 L362 160"/>
+          <path id="w6" class="sw-line" d="M210 160 L362 240"/>
+
+          <!-- pulsing hub halo -->
+          <circle cx="210" cy="160" r="16" fill="none" stroke="#F2C400" stroke-width="2.5">
+            <animate attributeName="r" values="14;32" dur="2.4s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.6;0" dur="2.4s" repeatCount="indefinite"/>
+          </circle>
+
+          <!-- travelling pulses: glowing NANDA-yellow balls -->
+          <circle class="sw-ball" r="5" filter="url(#swGlow)"><animateMotion dur="1.7s" begin="0s"    repeatCount="indefinite"><mpath href="#w1" xlink:href="#w1"/></animateMotion></circle>
+          <circle class="sw-ball" r="5" filter="url(#swGlow)"><animateMotion dur="1.7s" begin="0.28s" repeatCount="indefinite"><mpath href="#w2" xlink:href="#w2"/></animateMotion></circle>
+          <circle class="sw-ball" r="5" filter="url(#swGlow)"><animateMotion dur="1.7s" begin="0.56s" repeatCount="indefinite"><mpath href="#w3" xlink:href="#w3"/></animateMotion></circle>
+          <circle class="sw-ball" r="5" filter="url(#swGlow)"><animateMotion dur="1.7s" begin="0.85s" repeatCount="indefinite"><mpath href="#w4" xlink:href="#w4"/></animateMotion></circle>
+          <circle class="sw-ball" r="5" filter="url(#swGlow)"><animateMotion dur="1.7s" begin="1.13s" repeatCount="indefinite"><mpath href="#w5" xlink:href="#w5"/></animateMotion></circle>
+          <circle class="sw-ball" r="5" filter="url(#swGlow)"><animateMotion dur="1.7s" begin="1.41s" repeatCount="indefinite"><mpath href="#w6" xlink:href="#w6"/></animateMotion></circle>
+
+          <!-- glowing index hub (3x3 mark) -->
+          <g class="sw-hub" filter="url(#swGlow)">
+            <rect x="190" y="140" width="40" height="40" rx="10"/>
+            <circle class="cd" cx="200" cy="150" r="2.4"/><circle class="cd" cx="210" cy="150" r="2.4"/><circle class="cd" cx="220" cy="150" r="2.4"/>
+            <circle class="cd" cx="200" cy="160" r="2.4"/><circle class="cd" cx="210" cy="160" r="2.4"/><circle class="cd" cx="220" cy="160" r="2.4"/>
+            <circle class="cd" cx="200" cy="170" r="2.4"/><circle class="cd" cx="210" cy="170" r="2.4"/><circle class="cd" cx="220" cy="170" r="2.4"/>
+          </g>
+
+          <!-- source nodes (identities) -->
+          <circle class="sw-src" cx="58" cy="80" r="5"/>
+          <circle class="sw-src" cx="58" cy="160" r="5"/>
+          <circle class="sw-src" cx="58" cy="240" r="5"/>
+
+          <!-- destination nodes (discovery objects), flash yellow as a call arrives -->
+          <circle class="sw-dst" cx="362" cy="80" r="5">
+            <animate attributeName="fill" values="#0E0E0E;#0E0E0E;#F2C400;#0E0E0E" keyTimes="0;0.4;0.55;1" dur="1.7s" begin="0.85s" repeatCount="indefinite"/>
+            <animate attributeName="r" values="5;5;8;5" keyTimes="0;0.4;0.55;1" dur="1.7s" begin="0.85s" repeatCount="indefinite"/>
+          </circle>
+          <circle class="sw-dst" cx="362" cy="160" r="5">
+            <animate attributeName="fill" values="#0E0E0E;#0E0E0E;#F2C400;#0E0E0E" keyTimes="0;0.4;0.55;1" dur="1.7s" begin="1.13s" repeatCount="indefinite"/>
+            <animate attributeName="r" values="5;5;8;5" keyTimes="0;0.4;0.55;1" dur="1.7s" begin="1.13s" repeatCount="indefinite"/>
+          </circle>
+          <circle class="sw-dst" cx="362" cy="240" r="5">
+            <animate attributeName="fill" values="#0E0E0E;#0E0E0E;#F2C400;#0E0E0E" keyTimes="0;0.4;0.55;1" dur="1.7s" begin="1.41s" repeatCount="indefinite"/>
+            <animate attributeName="r" values="5;5;8;5" keyTimes="0;0.4;0.55;1" dur="1.7s" begin="1.41s" repeatCount="indefinite"/>
+          </circle>
+
+          <!-- labels -->
+          <text class="sw-label" x="48" y="84" text-anchor="end">domain</text>
+          <text class="sw-label" x="48" y="164" text-anchor="end">email</text>
+          <text class="sw-label" x="48" y="244" text-anchor="end">urn</text>
+          <text class="sw-label" x="372" y="84">AI Catalog</text>
+          <text class="sw-label" x="372" y="164">DNS-AID</text>
+          <text class="sw-label" x="372" y="244">Agent Card</text>
+          <text class="sw-hub-cap" x="210" y="202" text-anchor="middle">NANDA</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ============ BROWSE ============ -->
+    <section class="panel browse-sec" id="browse">
+      <div class="browse-head">
+        <h2>Browse</h2>
+        <a class="browse-all" href="explore.html">Explore all entries →</a>
+      </div>
+      <p class="browse-intro">
+        A secure directory of verified agent registries. Filter by category and inspect any
+        record's identity, capabilities and full resolution path.
       </p>
-
-      <div class="hero-cta">
-        <a class="btn primary" href="https://arxiv.org/abs/2507.14263" target="_blank" rel="noopener">Read the paper <span class="arr">→</span></a>
-        <a class="btn" href="https://nandaindex.org" target="_blank" rel="noopener">Explore the index</a>
-        <a class="btn" href="faq.html">FAQ</a>
-      </div>
-
-      <div class="stats">
-        <div class="stat"><div class="num">≤120<small> B</small></div><div class="lbl">lean index record</div></div>
-        <div class="stat"><div class="num">&lt;1<small> s</small></div><div class="lbl">global resolution</div></div>
-        <div class="stat"><div class="num">10⁴<small>×</small></div><div class="lbl">fewer index writes</div></div>
-        <div class="stat"><div class="num">&lt;1<small> s</small></div><div class="lbl">revocation &amp; key rotation</div></div>
-      </div>
+      <div class="card-grid" id="browsePreview"></div>
     </section>
 
     <!-- ============ WHY ============ -->
@@ -108,9 +198,10 @@
         <p class="panel-intro">
           NANDA pairs a lean record holding only essential static metadata with a self-describing
           <code class="tok">AgentFacts</code> schema (signed JSON-LD) that lets agents update
-          capabilities, endpoints and authentication without ever touching the index. The result is a
-          lightweight, horizontally scalable foundation for secure, trust-aware collaboration, with
-          five concrete guarantees.
+          capabilities, endpoints and authentication without ever touching the index. In effect the
+          index is a global switchboard: it connects a request to the right discovery object, then
+          steps out of the way. The result is a lightweight, horizontally scalable foundation for
+          secure, trust-aware collaboration, with five concrete guarantees.
         </p>
 
         <div class="glist">
@@ -208,6 +299,68 @@
       </div>
     </section>
 
+    <!-- ============ RESOLVE ============ -->
+    <section class="panel" id="resolve">
+      <header class="panel-head">
+        <h2>Resolve</h2>
+        <span class="kld">One identity, four hops</span>
+      </header>
+      <div class="panel-body">
+        <p class="panel-intro">
+          Every agent identity resolves through the same sequence — whatever path it registered by.
+          The switchboard routes the first hop, then steps aside: hops 1–3 cache at the record TTL,
+          and after hop 4 NANDA leaves the critical path entirely.
+        </p>
+        <div class="resolve-top">
+          <code class="urn-pill">urn:ai:domain:acme.com:agent:time</code>
+          <button class="btn primary" id="traceBtn" type="button">▶ Trace</button>
+        </div>
+        <div class="trace-bar"><div class="trace-fill" id="traceFill"></div></div>
+        <div class="hops">
+          <div class="hop" data-hop="1">
+            <div class="hop-top"><span class="hn">1</span><span class="hdot"></span></div>
+            <h3>NANDA Index</h3>
+            <p class="hq">Who manages this identity?</p>
+            <div class="hio">
+              <div><span class="lab">in&nbsp;&nbsp;</span><span class="val">locator: urn:ai:domain:acme.com:agent:time</span></div>
+              <div><span class="lab">out&nbsp;</span><span class="val">IndexRecord { registry_url, media_type, ttl }</span></div>
+              <div class="hapi">GET /api/v1/resolve?locator=…</div>
+            </div>
+          </div>
+          <div class="hop" data-hop="2">
+            <div class="hop-top"><span class="hn">2</span><span class="hdot"></span></div>
+            <h3>Agent Source</h3>
+            <p class="hq">What is this agent’s entry?</p>
+            <div class="hio">
+              <div><span class="lab">in&nbsp;&nbsp;</span><span class="val">IndexRecord.registry_url + identifier</span></div>
+              <div><span class="lab">out&nbsp;</span><span class="val">CatalogEntry { url, displayName, tags }</span></div>
+              <div class="hapi">GET &lt;registry_url&gt;/agents/&lt;id&gt;</div>
+            </div>
+          </div>
+          <div class="hop" data-hop="3">
+            <div class="hop-top"><span class="hn">3</span><span class="hdot"></span></div>
+            <h3>Agent Card</h3>
+            <p class="hq">What can this agent do?</p>
+            <div class="hio">
+              <div><span class="lab">in&nbsp;&nbsp;</span><span class="val">CatalogEntry.url</span></div>
+              <div><span class="lab">out&nbsp;</span><span class="val">AgentCard { url, auth, skills, … }</span></div>
+              <div class="hapi">GET &lt;catalog_entry.url&gt;</div>
+            </div>
+          </div>
+          <div class="hop" data-hop="4">
+            <div class="hop-top"><span class="hn">4</span><span class="hdot"></span></div>
+            <h3>Talk with Agent</h3>
+            <p class="hq">Send a task directly.</p>
+            <div class="hio">
+              <div><span class="lab">in&nbsp;&nbsp;</span><span class="val">AgentCard.url + { message }</span></div>
+              <div><span class="lab">out&nbsp;</span><span class="val">Task result from agent runtime</span></div>
+              <div class="hapi">POST &lt;agent_card.url&gt;/run</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ PRIOR WORK ============ -->
     <section class="panel" id="reading">
       <header class="panel-head">
@@ -262,5 +415,49 @@
     </span>
   </footer>
 
+  <!-- four-hop resolve trace: progressive enhancement; the section is fully
+       legible with JS disabled, this only adds the step-through animation. -->
+  <script>
+    (function () {
+      // The trace is a core showcase, so it always plays (not gated on reduced-motion).
+      var reduced = false;
+      var hops = Array.prototype.slice.call(document.querySelectorAll('.hop'));
+      var fill = document.getElementById('traceFill');
+      var btn = document.getElementById('traceBtn');
+      if (!hops.length) return;
+      var timers = [];
+      function paint(active) {
+        if (fill) fill.style.width = (active / hops.length * 100) + '%';
+        hops.forEach(function (el) {
+          var n = +el.getAttribute('data-hop');
+          el.classList.toggle('lit', n <= active);
+          el.classList.toggle('active', n === active);
+        });
+      }
+      function play() {
+        timers.forEach(clearTimeout); timers = [];
+        paint(0);
+        if (reduced) { paint(hops.length); return; }
+        for (var i = 1; i <= hops.length; i++) {
+          (function (step) { timers.push(setTimeout(function () { paint(step); }, step * 780)); })(i);
+        }
+      }
+      if (btn) btn.addEventListener('click', play);
+      if (reduced) { paint(hops.length); return; }
+      // auto-play once when the section scrolls into view
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting) { play(); io.disconnect(); } });
+        }, { threshold: 0.35 });
+        io.observe(document.getElementById('resolve'));
+      } else { play(); }
+    })();
+  </script>
+
+  <!-- catalog engine: powers the Browse preview strip above (init no-ops without a #grid) -->
+  <script src="explore.js"></script>
+  <script>
+    if (window.Explore) window.Explore.renderPreview('#browsePreview', 3);
+  </script>
 </body>
 </html>
