@@ -241,9 +241,9 @@ details.faq .faq-a code { font-family: var(--mono); font-size: 12.5px; backgroun
 
 .doc-hero { padding: 56px 0 28px; border-bottom: 1px solid var(--rule); }
 .doc-hero .eyebrow { margin-bottom: 16px; }
-.doc-hero h1 { font-size: clamp(28px, 4vw, 42px); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 10px; font-weight: 600; max-width: 22ch; }
-.doc-hero .subtitle { font-size: 17px; color: var(--muted); margin: 0 0 22px; max-width: 60ch; }
-.doc-hero .abstract { font-size: 15px; color: #333; max-width: 78ch; line-height: 1.65; }
+.doc-hero h1 { font-size: clamp(28px, 4vw, 42px); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 10px; font-weight: 600; }
+.doc-hero .subtitle { font-size: 17px; color: var(--muted); margin: 0 0 22px; }
+.doc-hero .abstract { font-size: 15px; color: #333; line-height: 1.65; }
 .doc-hero .abstract .al { font-weight: 600; color: var(--ink); }
 
 .doc-layout { display: grid; grid-template-columns: 232px 1fr; gap: 56px; align-items: start; padding-top: 8px; }
